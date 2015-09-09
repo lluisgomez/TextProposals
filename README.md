@@ -4,6 +4,18 @@ Implementation of the method proposed in the paper "Object Proposals for Text Ex
 
 This code reproduce the results published on the paper for the SVT and ICDAR2013 datasets.
 
+If you make use of this code, we appreciate it if you cite our paper:
+```
+@inproceedings{GomezICDAR15object,
+  author    = {Lluis Gomez and Dimosthenis Karatzas},
+  title     = {Object Proposals for Text Extraction in the Wild},
+  booktitle = {ICDAR},
+  year      = {2015}
+}
+```
+
+
+
 For any questions please write us: ({lgomez,dimos}@cvc.uab.es). Thanks!
 
 
