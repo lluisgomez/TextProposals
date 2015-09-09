@@ -17,8 +17,10 @@ Includes the following third party code:
 
 Requires OpenCV 2.4.x (will not work with 3.0.x)
 
-  ``cmake .``
-  ``make``
+```
+cmake .
+make
+```
 
 ## Run
 
