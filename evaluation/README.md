@@ -7,7 +7,8 @@ txt2mat_SVT
 eval_SVT
 
 txt2mat_ICDAR
-eval_ICDAR```
+eval_ICDAR
+```
 
 This code is credited to Piotr Dollar and comes from his EdgeBoxes repository: https://github.com/pdollar/edges 
 
