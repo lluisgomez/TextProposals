@@ -2,11 +2,12 @@
 
 Execute in the following commands in the MATLAB command window:
 
-  ``txt2mat_SVT
-    eval_SVT
+```
+txt2mat_SVT
+eval_SVT
 
-    txt2mat_ICDAR
-    eval_ICDAR``
+txt2mat_ICDAR
+eval_ICDAR```
 
 This code is credited to Piotr Dollar and comes from his EdgeBoxes repository: https://github.com/pdollar/edges 
 
