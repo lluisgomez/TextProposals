@@ -10,7 +10,9 @@ txt2mat_ICDAR
 eval_ICDAR
 ```
 
-This matlab code is credited to Piotr Dollar and comes from his EdgeBoxes repository: https://github.com/pdollar/edges 
+You must have [Piotr's Computer Vision Matlab Toolbox](http://vision.ucsd.edu/~pdollar/toolbox/doc/) installed to run these commands.
+
+The matlab evaluation code provided in this folder is credited to Piotr Dollar and comes from his [EdgeBoxes repository](https://github.com/pdollar/edges)
 
 Please cite his publication on Object Proposals if you make use of this evaluation framework:
 ```
