@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include <opencv/highgui.h>
+#include  "opencv2/highgui.hpp"
+#include  "opencv2/imgproc.hpp"
 
 using namespace std;
 using namespace cv;

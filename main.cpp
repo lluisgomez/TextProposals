@@ -1,6 +1,9 @@
 #define _MAIN
 
-#include <opencv/highgui.h>
+#include <opencv2/opencv.hpp>
+#include "opencv2/core/opengl.hpp"
+#include "opencv2/cvconfig.h"
+
 
 #include <iostream>
 #include <fstream>
@@ -48,7 +51,7 @@ int main( int argc, char** argv )
 
     int delta = atoi(argv[2]);
     int img_area = img.cols*img.rows;
-    cv::MSER cv_mser(delta,(int)(0.00002*img_area),(int)(0.11*img_area),55,0.);
+    Ptr<MSER> cv_mser = MSER::create(delta,(int)(0.00002*img_area),(int)(0.11*img_area),55,0.);
 
     cvtColor(img, grey, CV_BGR2GRAY);
     cvtColor(img, lab_img, CV_BGR2Lab);
@@ -88,8 +91,9 @@ int main( int argc, char** argv )
 
         /* Initial over-segmentation using MSER algorithm */
         vector<vector<Point> > contours;
+        vector<Rect>  zone;
         //t = (double)getTickCount();
-        cv_mser(channels[c], contours);
+        cv_mser->detectRegions(channels[c], contours, zone);
         //cout << " OpenCV MSER found " << contours.size() << " regions in " << ((double)getTickCount() - t)*1000/getTickFrequency() << " ms." << endl;
    
 

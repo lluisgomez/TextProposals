@@ -3,8 +3,7 @@
 
 #include <vector>
 
-#include <opencv/cv.h>
-#include <opencv/ml.h>
+#include <opencv2/ml.hpp>
 #include "region.h"
 #include "fast_clustering.cpp"
 #include "nfa.cpp"
@@ -12,6 +11,7 @@
 
 using namespace std;
 using namespace cv;
+using namespace ml;
 
 typedef struct {
     int num_elem;		 // number of elements
@@ -46,7 +46,7 @@ public:
 
 private:
     vector<Region> &regions;
-    CvBoost boost;
+    Ptr<Boost> boost;
     
 };
 

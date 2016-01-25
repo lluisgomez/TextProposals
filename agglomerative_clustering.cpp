@@ -2,7 +2,12 @@
 
 HierarchicalClustering::HierarchicalClustering(vector<Region> &_regions): regions(_regions)
 {
-    boost.load("./trained_boost_groups.xml", "boost");
+    boost = StatModel::load<Boost>( "./trained_boost_groups.xml" );
+    if( boost.empty() )
+    {
+        cout << "Could not read the classifier ./trained_boost_groups.xml" << endl;
+        CV_Error(Error::StsBadArg, "Could not read the default classifier!");
+    }
 }
 
 //For feature space
@@ -115,7 +120,7 @@ void HierarchicalClustering::build_merge_info(t_float *Z, t_float *X, int N, int
 	meanStdDev( bg_intensities, mean, std );
 	sample.push_back(std[0]); 
 
-	float votes_group = boost.predict( Mat(sample), Mat(), Range::all(), false, true );
+        float votes_group = boost->predict( Mat(sample), noArray(), DTrees::PREDICT_SUM | StatModel::RAW_OUTPUT);
         cluster.probability = (double)1-(double)1/(1+exp(-2*votes_group));
 
         merge_info.push_back(cluster);

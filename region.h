@@ -2,8 +2,7 @@
 #ifndef REGION_H
 #define REGION_H
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#include  "opencv2/highgui.hpp"
 
 #include <vector>
 #include <stdint.h>
