@@ -68,6 +68,10 @@ int main( int argc, char** argv )
         resize(channels[c],pyr,Size(channels[c].cols/2,channels[c].rows/2));
         //resize(pyr,pyr,Size(channels[c].cols,channels[c].rows));
         channels.push_back(pyr);
+      }
+      for (int c=0; c<num_channels; c++)
+      {
+        Mat pyr;
         resize(channels[c],pyr,Size(channels[c].cols/4,channels[c].rows/4));
         //resize(pyr,pyr,Size(channels[c].cols,channels[c].rows));
         channels.push_back(pyr);
