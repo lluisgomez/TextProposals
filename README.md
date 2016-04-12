@@ -1,49 +1,78 @@
 # TextProposals
 
-Implementation of the method proposed in the paper "Object Proposals for Text Extraction in the Wild" (Gomez & Karatzas), International Conference on Document Analysis and Recognition, ICDAR2015.
+Implementation of the method proposed in the papers:
 
-This code reproduce the results published on the paper for the SVT and ICDAR2013 datasets.
+* "TextProposals: a Text-specific Selective Search Algorithm for Word Spotting in the Wild" (Gomez and Karatzas), arXiv:1604.02619 2016.
 
-If you make use of this code, we appreciate it if you cite our paper:
+* "Object Proposals for Text Extraction in the Wild" (Gomez & Karatzas), International Conference on Document Analysis and Recognition, ICDAR2015.
+
+This code reproduces the results published on the papers for the SVT, ICDAR2013, ICDAR2015 datasets.
+
+If you make use of this code, we appreciate it if you cite our papers:
+```
+@article{gomez2016,
+  title     = {TextProposals: a Text-specific Selective Search Algorithm for Word Spotting in the Wild},
+  author    = {Lluis Gomez and Dimosthenis Karatzas},
+  journal   = {arXiv preprint arXiv:1604.02619},
+  year      = {2016}
+}
+```
+
 ```
 @inproceedings{GomezICDAR15object,
-  author    = {Lluis Gomez and Dimosthenis Karatzas},
   title     = {Object Proposals for Text Extraction in the Wild},
+  author    = {Lluis Gomez and Dimosthenis Karatzas},
   booktitle = {ICDAR},
   year      = {2015}
 }
 ```
 
-
-
 For any questions please write us: ({lgomez,dimos}@cvc.uab.es). Thanks!
-
 
 Includes the following third party code:
 
   - fast_clustering.cpp Copyright (c) 2011 Daniel Müllner, under the BSD license. http://math.stanford.edu/~muellner/fastcluster.html
-  - voronoi.h voronoi_skeleton Copyright (c) 2013 by Arnaud Ramey, under the LGPL license. https://github.com/arnaud-ramey/voronoi
   - binomial coefficient approximations are due to Rafael Grompone von Gioi. http://www.ipol.im/pub/art/2012/gjmr-lsd/
+
+## CNN models 
+
+The end-to-end evaluation require the DictNet_VGG model to be place in the project root directory.
+DictNet_VGG Caffe model and prototxt are available here https://goo.gl/sNn5Xt
 
 ## Compilation
 
-Requires OpenCV 2.4.x (will not work with 3.0.x)
+Requires OpenCV (3.0.x), Caffe (tested with d21772c), tinyXML
 
 ```
 cmake .
 make
 ```
 
+(NOTE: you may need to change the include and lib paths to your Caffe and cuda installations in CMakeLists.txt file)
+
 ## Run
 
-  ``./img2hierarchy <img_filename> <mser_delta>``
+  ``./img2hierarchy <img_filename>``
 
 writes to stdout a list of proposals, one per line, with the format: x,y,w,h,c.
 where x,y,w,h define a bounding box, and c is a confidence value used to rank the proposals.
 
-The value of "mse_delta" argument must be an integer value for the delta parameter of the MSER algorithm. In our experiments we use delta=13. Smaller values may generate better recall rates at the expenses of a lager number of proposals.
 
-## Evaluation
+  ``./img2hierarchy_cnn <img_filename>``
+
+same as before but for end-to-end recognition using the DictNet_VGG CNN model.
+
+## End-to-end Evaluation
+
+The following commands reproduce end-to-end results in our paper:
+
+  ``./eval_IC03 data/ICDAR2003/test_locations.xml``
+
+  ``./eval_SVT data/SVT/test.xml``
+
+  ``./eval_IC15 data/ICDAR2015/test_locations.xml``
+
+## Object Proposla Evaluation
 
 The following command lines generate a txt file with proposals for each image in the SVT and ICDAR2013 datasets respectively.
 
