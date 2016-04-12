@@ -66,11 +66,11 @@ same as before but for end-to-end recognition using the DictNet_VGG CNN model.
 
 The following commands reproduce end-to-end results in our paper:
 
-  ``./eval_IC03 data/ICDAR2003/test_locations.xml``
+  ``./eval_IC03 data/ICDAR2003/SceneTrialTest/words.xml``
 
   ``./eval_SVT data/SVT/test.xml``
 
-  ``./eval_IC15 data/ICDAR2015/test_locations.xml``
+  ``./eval_IC15``
 
 ## Object Proposla Evaluation
 
