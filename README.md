@@ -72,6 +72,8 @@ The following commands reproduce end-to-end results in our paper:
 
   ``./eval_IC15``
 
+Ground truth data for each dataset must be downloaded and placed in their respective folders in ./data/ directory.
+
 ## Object Proposla Evaluation
 
 The following command lines generate a txt file with proposals for each image in the SVT and ICDAR2013 datasets respectively.
