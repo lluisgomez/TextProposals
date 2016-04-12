@@ -2,8 +2,7 @@
 #ifndef REGION_H
 #define REGION_H
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#include  "opencv2/highgui.hpp"
 
 #include <vector>
 #include <stdint.h>
@@ -26,7 +25,7 @@ public:
 	cv::Rect bbox_;		///< Axis aligned bounding box
         float intensity_mean_;	///< mean intensity of the whole region
         float boundary_intensity_mean_;	///< mean intensity of the boundary of the region
-	double stroke_mean_;	///< mean stroke of the whole region
+	int   stroke_mean_;	///< mean stroke of the whole region
 	double gradient_mean_;	///< mean gradient magnitude of the whole region
 };
 

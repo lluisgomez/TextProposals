@@ -1,12 +1,14 @@
 #define _MAIN
 
-#include <opencv/highgui.h>
-
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+
+#include  "opencv2/highgui.hpp"
+#include  "opencv2/imgproc.hpp"
+#include  "opencv2/features2d.hpp"
 
 #include "region.h"
 #include "agglomerative_clustering.h"
@@ -25,7 +27,7 @@ using namespace cv;
 #define CUE_BGI      1 // Use BackGround Intensity grouping cue
 #define CUE_G        1 // Use Gradient magnitude grouping cue
 #define CUE_S        1 // Use Stroke width grouping cue
-#define CHANNEL_I    1 // Use Intensity color channel
+#define CHANNEL_I    0 // Use Intensity color channel
 #define CHANNEL_R    1 // Use Red color channel
 #define CHANNEL_G    1 // Use Green color channel
 #define CHANNEL_B    1 // Use Blue color channel
@@ -33,6 +35,8 @@ using namespace cv;
 
 int main( int argc, char** argv )
 {
+    // Params
+    float x_coord_mult              = 0.25; // a value of 1 means rotation invariant
 
     // Pipeline configuration
     bool conf_channels[4]={CHANNEL_R,CHANNEL_G,CHANNEL_B,CHANNEL_I};
@@ -46,9 +50,9 @@ int main( int argc, char** argv )
     img = imread(argv[1]);
     img.copyTo(src);
 
-    int delta = atoi(argv[2]);
+    int delta = 13;
     int img_area = img.cols*img.rows;
-    cv::MSER cv_mser(delta,(int)(0.00002*img_area),(int)(0.11*img_area),55,0.);
+    Ptr<MSER> cv_mser = MSER::create(delta,(int)(0.00002*img_area),(int)(0.11*img_area),55,0.);
 
     cvtColor(img, grey, CV_BGR2GRAY);
     cvtColor(img, lab_img, CV_BGR2Lab);
@@ -69,13 +73,13 @@ int main( int argc, char** argv )
         //resize(pyr,pyr,Size(channels[c].cols,channels[c].rows));
         channels.push_back(pyr);
       }
-      for (int c=0; c<num_channels; c++)
+      /*for (int c=0; c<num_channels; c++)
       {
         Mat pyr;
         resize(channels[c],pyr,Size(channels[c].cols/4,channels[c].rows/4));
         //resize(pyr,pyr,Size(channels[c].cols,channels[c].rows));
         channels.push_back(pyr);
-      }
+      }*/
     }
 
     for (int c=0; c<channels.size(); c++)
@@ -90,26 +94,37 @@ int main( int argc, char** argv )
           resize(gradient_magnitude,gradient_magnitude,Size(channels[c].cols,channels[c].rows));
         }
 
+        // TODO you want to try single pass MSER?
+        //channels[c] = 255 - channels[c];
+        //cv_mser->setPass2Only(true);
+
         /* Initial over-segmentation using MSER algorithm */
         vector<vector<Point> > contours;
+        vector<Rect>  mser_bboxes;
         //t = (double)getTickCount();
-        cv_mser(channels[c], contours);
+        cv_mser->detectRegions(channels[c], contours, mser_bboxes);
         //cout << " OpenCV MSER found " << contours.size() << " regions in " << ((double)getTickCount() - t)*1000/getTickFrequency() << " ms." << endl;
    
 
         /* Extract simple features for each region */ 
         vector<Region> regions;
         Mat mask = Mat::zeros(grey.size(), CV_8UC1);
-        double max_stroke = 0;
+        int max_stroke = 0;
         for (int i=contours.size()-1; i>=0; i--)
         {
             Region region;
             region.pixels_.push_back(Point(0,0)); //cannot swap an empty vector
             region.pixels_.swap(contours[i]);
+            region.bbox_ = mser_bboxes[i];
             region.extract_features(lab_img, grey, gradient_magnitude, mask, conf_cues);
             max_stroke = max(max_stroke, region.stroke_mean_);
             regions.push_back(region);
         }
+          
+        unsigned int N = regions.size();
+        if (N<3) continue;
+        int dim = 3;
+        t_float *data = (t_float*)malloc(dim*N * sizeof(t_float));
 
         /* Single Linkage Clustering for each individual cue */
         for (int cue=0; cue<5; cue++)
@@ -117,20 +132,15 @@ int main( int argc, char** argv )
 
           if (!conf_cues[cue]) continue;
     
-          int f=0;
-          unsigned int N = regions.size();
-          if (N<3) continue;
-          int dim = 3;
-          t_float *data = (t_float*)malloc(dim*N * sizeof(t_float));
           int count = 0;
           for (int i=0; i<regions.size(); i++)
           {
-            data[count] = (t_float)(regions.at(i).bbox_.x+regions.at(i).bbox_.width/2)/img.cols*0.25;
-            data[count+1] = (t_float)(regions.at(i).bbox_.y+regions.at(i).bbox_.height/2)/img.rows;
+            data[count] = (t_float)(regions.at(i).bbox_.x+regions.at(i).bbox_.width/2)/channels[c].cols*x_coord_mult;
+            data[count+1] = (t_float)(regions.at(i).bbox_.y+regions.at(i).bbox_.height/2)/channels[c].rows;
             switch(cue)
             {
               case 0:
-                data[count+2] = (t_float)max(regions.at(i).bbox_.height, regions.at(i).bbox_.width)/max(img.rows,img.cols);
+                data[count+2] = (t_float)max(regions.at(i).bbox_.height, regions.at(i).bbox_.width)/max(channels[c].rows,channels[c].cols);
                 break;
               case 1:
                 data[count+2] = (t_float)regions.at(i).intensity_mean_/255;
@@ -150,7 +160,7 @@ int main( int argc, char** argv )
       
           HierarchicalClustering h_clustering(regions);
           vector<HCluster> dendrogram;
-          h_clustering(data, N, dim, (unsigned char)0, (unsigned char)3, dendrogram);
+          h_clustering(data, N, dim, (unsigned char)0, (unsigned char)3, dendrogram, x_coord_mult, channels[c].size());
       
           for (int k=0; k<dendrogram.size(); k++)
           {
@@ -164,13 +174,14 @@ int main( int argc, char** argv )
              //     << (float)dendrogram[k].nfa << endl;
              //     << (float)(k) * ((float)rand()/RAND_MAX) << endl;
              //     << (float)dendrogram[k].nfa * ((float)rand()/RAND_MAX) << endl;
+             rectangle(src,Point(dendrogram[k].rect.x*ml,dendrogram[k].rect.y*ml), Point(dendrogram[k].rect.x*ml+dendrogram[k].rect.width*ml, dendrogram[k].rect.y*ml+dendrogram[k].rect.height*ml), Scalar(0,0,255));
           }
   
-          free(data);
         }
+        free(data);
 
     }
 
-    //imshow("",src);
-    //waitKey(-1);
+    imshow("",src);
+    waitKey(-1);
 }

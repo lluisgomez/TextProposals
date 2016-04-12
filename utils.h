@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include <opencv/highgui.h>
+#include  "opencv2/highgui.hpp"
+#include  "opencv2/imgproc.hpp"
 
 using namespace std;
 using namespace cv;
@@ -32,5 +33,20 @@ void get_gradient_magnitude(Mat& _grey_img, Mat& _gradient_magnitude)
     magnitude( grad_x, grad_y, _gradient_magnitude);
 
 }
+
+/* FOREGROUND COLORS use as follows:
+   cout << KRED << "I'm red text." << KRST << endl;
+   cout << KBOLD << KBLU << "I'm blue-bold." << KRST << endl; */
+#define KRST  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
+#define KBOLD "\x1B[1m"
+#define KUNDL "\x1B[4m"
 
 #endif

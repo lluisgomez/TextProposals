@@ -3,3 +3,10 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 img2hierarchy
+img2hierarchy_cnn
+eval_IC03
+eval_IC15
+eval_SVT
+dictnet_vgg.caffemodel
+dictnet_vgg_deploy.prototxt
+dictnet_vgg_labels.txt

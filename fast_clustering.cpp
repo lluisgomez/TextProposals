@@ -1673,7 +1673,7 @@ public:
 
 // The size of a node is either 1 (a single point) or is looked up from
 // one of the clusters.
-#define size_(r_) ( ((r_<N) ? 1 : Z_(r_-N,3)) )
+#define size_fc_(r_) ( ((r_<N) ? 1 : Z_(r_-N,3)) )
 
 template <bool sorted>
 static void generate_dendrogram(t_float * const Z, cluster_result & Z2, const t_index N) {
@@ -1704,8 +1704,8 @@ static void generate_dendrogram(t_float * const Z, cluster_result & Z2, const t_
       // children of a new node.
       nodes.Union(node1, node2);
     }
-   //fprintf(stderr, "	node1 = %d , node2 = %d , Z2[i]->dist = %f , size_(node1)+size_(node2) = %f", node1, node2, Z2[i]->dist, size_(node1)+size_(node2));
-    output.append(node1, node2, Z2[i]->dist, size_(node1)+size_(node2));
+   //fprintf(stderr, "	node1 = %d , node2 = %d , Z2[i]->dist = %f , size_fc_(node1)+size_fc_(node2) = %f", node1, node2, Z2[i]->dist, size_fc_(node1)+size_fc_(node2));
+    output.append(node1, node2, Z2[i]->dist, size_fc_(node1)+size_fc_(node2));
   }
 }
 

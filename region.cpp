@@ -16,8 +16,7 @@ Region::Region()
 void Region::extract_features(Mat& _lab_img, Mat& _grey_img, Mat& _gradient_magnitude, Mat& mask, bool conf[])
 {
 
-  bbox_ = boundingRect(pixels_);
-
+  //TODO following line is not reallistic at all because the group classifier still use statistics of this features, so either we buils a classifier without them OR we calculate them allways
   if ((!conf[1])&&(!conf[2])&&(!conf[3])&&(!conf[4])) return;
 
   // Expanded box 5pix.
@@ -28,8 +27,7 @@ void Region::extract_features(Mat& _lab_img, Mat& _grey_img, Mat& _gradient_magn
   uchar* mptr = (uchar*)mask.data;
   for ( int j = 0; j < (int)pixels_.size(); j++ )
   {
-    Point pt = pixels_[j];
-    mptr[pt.x+pt.y*mask.cols] = 255;
+    mptr[pixels_[j].x+pixels_[j].y*mask.cols] = 255;
   }
 
   Scalar m;
@@ -37,45 +35,40 @@ void Region::extract_features(Mat& _lab_img, Mat& _grey_img, Mat& _gradient_magn
   if (conf[1])
   {
     m = mean(_grey_img(bbox_),mask(bbox_));
-    mask(bbox_) = Scalar(0); //clean the mask
     intensity_mean_ = m[0];
   }
 
-  Mat tmp_mask;
+  Mat tmp_mask, tmp_mask2;
+  Mat element = getStructuringElement( MORPH_RECT, Size(5, 5), Point(2, 2) );
+  dilate(mask(bbox), tmp_mask, element);
 
   if (conf[4])
   {
-    Mat dt;
-    distanceTransform(mask(bbox_), dt, CV_DIST_L1,3); //L1 gives distance in round integers
-    VoronoiSkeleton skel;
-    skel.thin(mask(bbox),IMPL_GUO_HALL_FAST,false);
-    skel.get_skeleton()(Rect(bbox_.x-bbox.x,bbox_.y-bbox.y,
-      bbox_.width,bbox_.height)).copyTo(tmp_mask); // TODO is this efficient?
-    m = mean(dt,tmp_mask);
-    stroke_mean_ = m[0];
+    distanceTransform(tmp_mask, tmp_mask2, CV_DIST_L1,3); //L1 gives distance in round integers
+    double mm;
+    minMaxLoc(tmp_mask2,NULL,&mm,NULL,NULL,tmp_mask);
+    stroke_mean_ = (int)mm;
   }
 
-  Mat element = getStructuringElement( MORPH_RECT, Size(5, 5), Point(2, 2) );
 
   if (conf[2])
   {
-    dilate(mask(bbox), tmp_mask, element);
-    absdiff(tmp_mask, mask(bbox), tmp_mask);	
+    absdiff(tmp_mask, mask(bbox), tmp_mask2);	
 	
-    m = mean(_grey_img(bbox), tmp_mask);
+    m = mean(_grey_img(bbox), tmp_mask2);
     boundary_intensity_mean_ = m[0];
   }
 	
   if (conf[3])
   {
-    Mat tmp2;
-    dilate(mask(bbox), tmp_mask, element);
-    erode(mask(bbox), tmp2, element);
-    absdiff(tmp_mask, tmp2, tmp_mask);	
+    erode(mask(bbox), tmp_mask2, element);
+    absdiff(tmp_mask, tmp_mask2, tmp_mask);	
 	
     m = mean(_gradient_magnitude(bbox), tmp_mask);
     gradient_mean_ = m[0];
   }
+  
+  mask(bbox_) = Scalar(0); //clean the mask
 
 }
 
