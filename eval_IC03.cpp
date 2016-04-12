@@ -199,6 +199,16 @@ int main( int argc, char** argv )
   int   min_word_lenght           = 3;
   float nms_IoU_threshold         = 0.2;
   float nms_I_threshold           = 0.5;
+  int   lexicon = atoi(argv[2]);
+
+  switch (lexicon)
+  {
+	case 0:
+	case 1:
+	  weak_classifier_threshold = 0.01;
+	  cnn_classifier_threshold  = 0.85;
+	  break;
+  }
 
   // TextProposals Pipeline configuration
   bool conf_channels[4]={CHANNEL_R,CHANNEL_G,CHANNEL_B,CHANNEL_I};
@@ -559,7 +569,17 @@ int main( int argc, char** argv )
           double t_sr0 = (double)getTickCount();
           StoppingRule sr;
           vector<int> maxIdxs;
-          sr( dendrogram, maxIdxs, empty_lex, min_word_lenght, weak_classifier_threshold, cnn_classifier_threshold, true );
+          switch (lexicon)
+          {
+	    case 0:
+              sr( dendrogram, maxIdxs, lex50, min_word_lenght, weak_classifier_threshold, cnn_classifier_threshold, true );
+	      break;
+	    case 1:
+              sr( dendrogram, maxIdxs, full_lex, min_word_lenght, weak_classifier_threshold, cnn_classifier_threshold, true );
+	      break;
+	    default:
+              sr( dendrogram, maxIdxs, empty_lex, min_word_lenght, weak_classifier_threshold, cnn_classifier_threshold, true );
+          }
           t_sr += ((double)getTickCount() - t_sr0)/ getTickFrequency();
 
 
