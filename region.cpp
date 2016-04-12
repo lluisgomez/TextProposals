@@ -1,5 +1,4 @@
 #include "region.h"
-#include "voronoi.h" //voronoi_skeleton by Arnaud Ramey <arnaud.a.ramey@gmail.com>
 
 #include <algorithm>
 #include <cassert>
