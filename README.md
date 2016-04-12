@@ -36,12 +36,12 @@ Includes the following third party code:
 
 ## CNN models 
 
-The end-to-end evaluation require the DictNet_VGG model to be place in the project root directory.
+The end-to-end evaluation require the DictNet_VGG model to be placed in the project root directory.
 DictNet_VGG Caffe model and prototxt are available here https://goo.gl/sNn5Xt
 
 ## Compilation
 
-Requires OpenCV (3.0.x), Caffe (tested with d21772c), tinyXML
+Requires: OpenCV (3.0.x), Caffe (tested with d21772c), tinyXML
 
 ```
 cmake .
@@ -87,3 +87,5 @@ The following command lines generate a txt file with proposals for each image in
   ``for i in `cat /path/to/datasets/ICDAR2013/test_locations.xml | grep imageName | cut -d '>' -f 2 | cut -d '<' -f 1 | cut -d '_' -f 2 | cut -d '.' -f 1`; do echo $i; ./img2hierarchy /path/to/datasets/ICDAR2013/test/img_$i.jpg 13 > data/$i; done``
 
 once the files are generated you may want to run the matlab code in the evaluation/ folder to get the IoU scores and plots.
+
+Notice that the MATLAB evaluation script performs deduplicatioin of the bounding boxes proposals. Thus, if tou use another evauation framework you must deduplicate proposals same way.
