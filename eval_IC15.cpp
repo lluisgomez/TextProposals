@@ -265,11 +265,9 @@ int main( int argc, char** argv )
                   //if ((tag_s.size() >= 3) && (find_if(tag_s.begin(), tag_s.end(), is_not_alnum) == tag_s.end()))
                   if (find (full_lex.begin(), full_lex.end(), tag_s) != full_lex.end())
                   {
-                    cout << "TAG " << tag_s << " is OK" << endl;
                     gt_words.push_back(tag_s);
                     gt_rects.push_back(box);
                   } else {
-                    cout << "TAG " << tag_s << " is NOT ok" << endl;
                     dc_words.push_back(tag_s);
                     dc_rects.push_back(box);
                   }
@@ -684,10 +682,11 @@ int main( int argc, char** argv )
 
   im_outfile.close();
 
+  cout << "results saved in file " << out_fname << endl;
 
 
 
-
+/*
         for (size_t i=0; i<max_clusters.size(); i++)
         {
           bool matched = false;
@@ -775,6 +774,7 @@ int main( int argc, char** argv )
           waitKey(-1);
           destroyAllWindows();
         }
+*/
 
     } //end foreach image
 

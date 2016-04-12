@@ -263,11 +263,9 @@ int main( int argc, char** argv )
                   std::transform(tag_s.begin(), tag_s.end(), tag_s.begin(), ::tolower);
                   if ((tag_s.size() >= 3) && (find_if(tag_s.begin(), tag_s.end(), is_not_alnum) == tag_s.end()))
                   {
-                    cout << "TAG " << tag_s << " is OK" << endl;
                     gt_words.push_back(tag_s);
                     gt_rects.push_back(box);
                   } else {
-                    cout << "TAG " << tag_s << " is NOT ok" << endl;
                     dc_words.push_back(tag_s);
                     dc_rects.push_back(box);
                   }
