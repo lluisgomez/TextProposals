@@ -66,13 +66,17 @@ same as before but for end-to-end recognition using the DictNet_VGG CNN model.
 
 The following commands reproduce end-to-end results in our paper:
 
-  ``./eval_IC03 data/ICDAR2003/SceneTrialTest/words.xml``
+  ``./eval_IC03 data/ICDAR2003/SceneTrialTest/words.xml <LEX_SIZE>``
 
-  ``./eval_SVT data/SVT/test.xml``
+  ``./eval_SVT data/SVT/test.xml <LEX_SIZE>``
 
-  ``./eval_IC15``
+  ``./eval_IC15 <LEX_SIZE>``
+
+The value of LEX_SIZE parameter indicates the size of the lexicon to be used: 0 (for small lexicons), 1 (for Full lexicon), or 2 (for no lexicon, i.e. the 90k word vocabulary of the DictNet model).
 
 Ground truth data for each dataset must be downloaded and placed in their respective folders in ./data/ directory.
+
+In the case of ICDAR2015, since test ground truth is not available, the program save the results in res/ directory. These results files can be uploaded to the ICDAR Robust Reading Competition site for evaluation.
 
 ## Object Proposla Evaluation
 
