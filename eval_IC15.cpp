@@ -226,10 +226,10 @@ int main( int argc, char** argv )
         stringstream GTimagename_s;
         GTimagename_s << "img_" << im_id;
         string GTimagename = GTimagename_s.str()+string(".jpg");
-        string in_imagename = string("/media/DADES/datasets/ICDAR2015/ch4t4/test/")+GTimagename;
+        string in_imagename = string("data/ICDAR2015/test/")+GTimagename;
         cout << in_imagename << endl;
         outfile << in_imagename << endl;
-        string  gt_fname = string("/media/DADES/datasets/ICDAR2015/ch4t4/test/gt_")+GTimagename_s.str()+string(".txt");
+        string  gt_fname = string("data/ICDAR2015/test/gt_")+GTimagename_s.str()+string(".txt");
         string lex_fname = string("lex/ICDAR2015/voc_")+GTimagename_s.str()+string(".txt");
         ifstream labels(lex_fname.c_str());
         string line;

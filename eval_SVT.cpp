@@ -188,7 +188,7 @@ int main( int argc, char** argv )
     TiXmlDocument GTdoc( argv[1] );
     if (!GTdoc.LoadFile()) {
         cerr << "Failed to open XML file!\n" << endl;
-        cerr << "  trainHierarchy <XML_GT_FILE> " << endl;
+        cerr << "  ./eval_SVT <XML_GT_FILE> " << endl;
         return 1;
     }
 
@@ -230,7 +230,7 @@ int main( int argc, char** argv )
     
         TiXmlElement* GTimage = GTroot->ToElement();
         string GTimagename = GTimage->FirstChild( "imageName" )->ToElement()->GetText();
-        string in_imagename = string("/media/DADES/datasets/SVT/svt1/")+GTimagename;
+        string in_imagename = string("data/SVT/")+GTimagename;
         cout << in_imagename << endl;
         outfile << in_imagename << endl;
         string GTlex = GTimage->FirstChild( "lex" )->ToElement()->GetText();
