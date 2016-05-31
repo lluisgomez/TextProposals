@@ -37,7 +37,7 @@ Includes the following third party code:
 ## CNN models 
 
 The end-to-end evaluation require the DictNet_VGG model to be placed in the project root directory.
-DictNet_VGG Caffe model and prototxt are available here https://goo.gl/sNn5Xt
+DictNet_VGG Caffe model and prototxt are available here http://nicolaou.homouniversalis.org/assets/vgg_text/
 
 ## Compilation
 
