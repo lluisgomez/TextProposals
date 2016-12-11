@@ -88,4 +88,4 @@ The following command lines generate a txt file with proposals for each image in
 
 once the files are generated you may want to run the matlab code in the evaluation/ folder to get the IoU scores and plots.
 
-Notice that the MATLAB evaluation script performs deduplicatioin of the bounding boxes proposals. Thus, if tou use another evauation framework you must deduplicate proposals same way.
+Notice that the MATLAB evaluation script performs deduplicatioin of the bounding boxes proposals. Thus, if you use another evauation framework you must deduplicate proposals same way.
