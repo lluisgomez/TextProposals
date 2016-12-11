@@ -78,7 +78,7 @@ Ground truth data for each dataset must be downloaded and placed in their respec
 
 In the case of ICDAR2015, since test ground truth is not available, the program save the results in res/ directory. These results files can be uploaded to the ICDAR Robust Reading Competition site for evaluation.
 
-## Object Proposla Evaluation
+## Object Proposal Evaluation
 
 The following command lines generate a txt file with proposals for each image in the SVT and ICDAR2013 datasets respectively.
 
