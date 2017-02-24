@@ -41,9 +41,21 @@ DictNet_VGG Caffe model and prototxt are available here http://nicolaou.homouniv
 
 ## Compilation
 
-Requires: OpenCV (3.0.x), Caffe (tested with d21772c), tinyXML
+Requires: OpenCV 3.1 (tested with 02edfc8), Caffe (tested with d21772c), tinyXML
+
+NOTE: Due to some changes on the OpenCV API, if you want to reproduce the results on our paper you will have to checkout to a specific commit of the opencv code. E.g.:
 
 ```
+git clone https://github.com/opencv/opencv
+cd opencv
+git checkout ce84c0e1bb70c12e75064d15211a26d251f5bc26
+```
+
+Then you can compile the TextProposals code as follows:
+
+```
+git clone https://github.com/lluisgomez/TextProposals
+cd TextProposals
 cmake .
 make
 ```
