@@ -48,7 +48,7 @@ NOTE: Due to some changes on the OpenCV API, if you want to reproduce the result
 ```
 git clone https://github.com/opencv/opencv
 cd opencv
-git checkout ce84c0e1bb70c12e75064d15211a26d251f5bc26
+git checkout 02edfc8df2f5dbb2ccb3a3e9a318a837f253190f
 ```
 
 Then you can compile the TextProposals code as follows:
