@@ -2,7 +2,7 @@
 
 Implementation of the method proposed in the papers:
 
-* "TextProposals: a Text-specific Selective Search Algorithm for Word Spotting in the Wild" (Gomez and Karatzas), arXiv:1604.02619 2016.
+* "TextProposals: a Text-specific Selective Search Algorithm for Word Spotting in the Wild" (Gomez and Karatzas), Pattern Recognition, vol. 70, pp.60-74, 2017.
 
 * "Object Proposals for Text Extraction in the Wild" (Gomez & Karatzas), International Conference on Document Analysis and Recognition, ICDAR2015.
 
@@ -13,8 +13,10 @@ If you make use of this code, we appreciate it if you cite our papers:
 @article{gomez2016,
   title     = {TextProposals: a Text-specific Selective Search Algorithm for Word Spotting in the Wild},
   author    = {Lluis Gomez and Dimosthenis Karatzas},
-  journal   = {arXiv preprint arXiv:1604.02619},
-  year      = {2016}
+  journal = "Pattern Recognition ",
+  volume = "70",
+  pages = "60 - 74",
+  year = "2017"
 }
 ```
 
